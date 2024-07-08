@@ -11,8 +11,8 @@ function createBaseLayers() {
         var europe = [];
 
         world.push(new ol.layer.Tile({
-                source: new ol.source.OSM(),
-                name: 'osm',
+                // source: new ol.source.OSM(),
+                source: new ol.source.OSM({ url: "/maps/{z}/{x}/{y}.png" }),
                 title: 'OpenStreetMap',
                 type: 'base',
         }));

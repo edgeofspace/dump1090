@@ -8,7 +8,7 @@ ENABLED=yes
 # SDR device type. Use "none" for a net-only configuration
 RECEIVER=rtlsdr
 # serial number or device index of device to use (only needed if there is more than one SDR connected)
-RECEIVER_SERIAL=
+RECEIVER_SERIAL=ADSB
 # Initial receiver gain, in dB. If adaptive gain is enabled (see below) the actual gain
 # may change over time
 RECEIVER_GAIN=60
@@ -39,7 +39,7 @@ ERROR_CORRECTION=yes
 RECEIVER_LAT=
 RECEIVER_LON=
 # Maximum range, in NM. Positions more distant than this are ignored. No limit if not set.
-MAX_RANGE=360
+MAX_RANGE=800
 
 # Network ports to listen on for connections
 NET_RAW_INPUT_PORTS=
