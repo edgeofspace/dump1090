@@ -1,0 +1,8 @@
+services:
+  dump1090:
+    image: thekoola/dump1090:brickv2.1
+    ports:
+      - 8080:8080/tcp
+    devices:
+      - /dev/bus/usb
+    restart: unless-stopped
