@@ -1,4 +1,4 @@
-FROM debian:bullseye as builder
+FROM debian:bullseye AS builder
 
 RUN apt update && \
     apt install -y \
