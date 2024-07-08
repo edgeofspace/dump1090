@@ -13,6 +13,7 @@ function createBaseLayers() {
         world.push(new ol.layer.Tile({
                 // source: new ol.source.OSM(),
                 source: new ol.source.OSM({ url: "/maps/{z}/{x}/{y}.png" }),
+                name: 'osm',
                 title: 'OpenStreetMap',
                 type: 'base',
         }));
