@@ -3,6 +3,56 @@
 
 // Base layers configuration
 
+// this function will fetch the style JSON (mapbox style spec) from the backend
+async function getStyleJson() {
+
+    // location of the style json for our brick-hosted vector map
+    let styleurl = "/tileserver/osm-liberty/style.json";
+    let json = null;
+
+    try {
+        const response = await fetch(styleurl);
+
+        // if not okay, the throw an error
+        if (!response.ok) {
+            throw new Error(`Unable to fetch url, ${url}: ${response.status}`);
+        }
+
+        // get the json response
+        let d = await response.json();
+
+        // get the hostname of the backend web server
+        let myhostname = window.location.hostname;
+
+        // update the hostname within the URL of for the map styling
+        if (d.sources)
+            if (d.sources.openmaptiles)
+                if (d.sources.openmaptiles.url) {
+                    let url = new URL(d.sources.openmaptiles.url);
+                    d.sources.openmaptiles.url = d.sources.openmaptiles.url.replace(url.hostname, myhostname);
+                }
+        if (d.sprite) {
+            let url = new URL(d.sprite);
+            d.sprite = d.sprite.replace(url.hostname, myhostname);
+        }
+
+        if (d.glyphs) {
+            let url = new URL(d.glyphs);
+            d.glyphs = d.glyphs.replace(url.hostname, myhostname);
+        }
+
+        // set the json variable to our newly updated JSON
+        json = d;
+
+    }
+    catch (e) {
+        console.log(e);
+    }
+
+    return json;
+}
+
+
 function createBaseLayers() {
         var layers = [];
 
@@ -10,13 +60,24 @@ function createBaseLayers() {
         var us = [];
         var europe = [];
 
-        world.push(new ol.layer.Tile({
-                // source: new ol.source.OSM(),
-                source: new ol.source.OSM({ url: "/maps/{z}/{x}/{y}.png" }),
-                name: 'osm',
-                title: 'OpenStreetMap',
-                type: 'base',
-        }));
+
+        // get the style JSON
+        let stylejson = getStyleJson();
+
+        // create a base new layer for the map
+        let mvl = new ol.layer.VectorTile({
+            declutter: true,
+            name: 'eosstracker',
+            title: 'EOSS Brick Map',
+            type: 'base'
+        });
+
+        // Apply the mapbox style spec to this layer
+        olms.applyStyle(mvl, stylejson);
+
+        // Add this layer to the list
+        world.push(mvl);
+            
 
         world.push(new ol.layer.Tile({
                 source: new ol.source.XYZ({

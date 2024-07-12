@@ -36,7 +36,7 @@ case "$1" in
 
         # set up lighttpd
         # Make sure the "data" directory is owned by dump1090 so the dump1090-fa process has write access
-        jsondir="/usr/share/dump1090-fa/html/data"
+        jsondir="/usr/share/skyaware/html/data"
         if [ ! -d ${jsondir} ]; then
             echo "Creating directory ${jsondir}..." >&2
             mkdir ${jsondir}
@@ -55,10 +55,10 @@ case "$1" in
                 echo "Modifying ${apachefile}..." >&2
                 sed -i '/<\/VirtualHost>/i \
         ####dump1090-start###\
-        Alias  "/data" "/dump1090-fa/data"\
-        Alias  "/dump1090-fa" "/usr/share/dump1090-fa/html"\
-        Alias  "^/dump1090-fa$" "/dump1090-fa"\
-        SetEnvIf Request_URI "/dump1090-fa/data/.*\.json$" Header set "Access-Control-Allow-Origin" "*"\
+        Alias  "/data" "/skyaware/data"\
+        Alias  "/skyaware" "/usr/share/skyaware/html"\
+        Alias  "^/skyaware$" "/skyaware"\
+        SetEnvIf Request_URI "/skyaware/data/.*\.json$" Header set "Access-Control-Allow-Origin" "*"\
         ####dump1090-end###' ${apachefile}
                 changed=true
             fi
