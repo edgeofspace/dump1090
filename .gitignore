@@ -22,3 +22,4 @@ debian/dump1090-fa*
 debian/debhelper-build-stamp
 debian/files
 .vscode
+package
